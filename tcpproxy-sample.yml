@@ -1,0 +1,7 @@
+proxies:
+  - name: RDP
+    source: :13389
+    destination: 192.168.0.10:3389
+  - name: SSH
+    source: :2222
+    destination: 192.168.0.11:22
