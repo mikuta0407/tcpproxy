@@ -43,14 +43,14 @@ func openConfigFile(configFile string) ([]byte, error) {
 		return nil, err
 	}
 
-	cfp, err := xdg.SearchConfigFile("tcpproxy/.tcpproxy.yml")
+	cfp, err := xdg.SearchConfigFile("tcpproxy/tcpproxy.yml")
 	if err != nil {
 		home, err := os.UserHomeDir()
 		if err != nil {
 			return nil, err
 		}
 
-		yamlData, err := os.ReadFile(filepath.Join(home, ".tcpproxy.yml"))
+		yamlData, err := os.ReadFile(filepath.Join(home, "tcpproxy.yml"))
 		return yamlData, err
 	}
 
