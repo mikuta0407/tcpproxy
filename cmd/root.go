@@ -26,7 +26,7 @@ func Execute() {
 	start()
 }
 
-var proxyConfig *config.Config
+var proxyConfig config.Config
 var configFile string
 
 func init() {
@@ -44,7 +44,7 @@ func start() {
 	log.Println("Starting port forwarding tool...")
 
 	cancelFuncs := make(map[string]context.CancelFunc)
-	proxy := proxy.NewProxy(proxyConfig, cancelFuncs)
+	proxy := proxy.NewProxy(&proxyConfig, cancelFuncs)
 
 	// SIGHUPシグナルをハンドリングするためのチャネルを設定
 	sigs := make(chan os.Signal, 1)
@@ -60,7 +60,7 @@ func start() {
 			}
 			proxy.StopAllProxies()
 			proxy.ConfigMutex.Lock()
-			proxy.ActiveConfig = newProxyConfig
+			proxy.ActiveConfig = &newProxyConfig
 			proxy.ConfigMutex.Unlock()
 			proxy.Start()
 			log.Println("Configuration reloaded successfully.")

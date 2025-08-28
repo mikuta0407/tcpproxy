@@ -23,13 +23,13 @@ type Config struct {
 	Proxies []Proxy `yaml:"proxies"`
 }
 
-func LoadConfigFile(configFile string) (proxyConfig *Config, err error) {
+func LoadConfigFile(configFile string) (proxyConfig Config, err error) {
 
 	yamlData, err := openConfigFile(configFile)
 	if err != nil {
 		log.Fatal("Error reading YAML file:", err)
 	}
-	err = yaml.Unmarshal(yamlData, proxyConfig)
+	err = yaml.Unmarshal(yamlData, &proxyConfig)
 	if err != nil {
 		log.Fatal("Error unmarshaling YAML:", err)
 	}
