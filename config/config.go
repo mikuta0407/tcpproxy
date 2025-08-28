@@ -9,21 +9,25 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type ProxyConfig struct {
-	Proxies []struct {
-		Name        string `yaml:"name"`
-		Source      string `yaml:"source"`
-		Destination string `yaml:"destination"`
-	} `yaml:"proxies"`
+// Proxy は単一のポートフォワーディングルールを定義します。
+type Proxy struct {
+	Name        string `yaml:"name"`
+	Source      string `yaml:"source"`
+	Destination string `yaml:"destination"`
 }
 
-func LoadConfigFile(configFile string) (proxyConfig ProxyConfig, err error) {
+// Config は設定ファイル全体を定義します。
+type Config struct {
+	Proxies []Proxy `yaml:"proxies"`
+}
+
+func LoadConfigFile(configFile string) (proxyConfig *Config, err error) {
 
 	yamlData, err := openConfigFile(configFile)
 	if err != nil {
 		log.Fatal("Error reading YAML file:", err)
 	}
-	err = yaml.Unmarshal(yamlData, &proxyConfig)
+	err = yaml.Unmarshal(yamlData, proxyConfig)
 	if err != nil {
 		log.Fatal("Error unmarshaling YAML:", err)
 	}
